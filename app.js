@@ -26,24 +26,27 @@ app.get('/', (req,res) => {
     res.send('Home')
 })
 
-const Car =  require('./models/car')
-app.get('/add-car', (req,res) => {
-    const newCar = new Car({
-        model: 'Myvi 1.3X',
-        year: '2017',
-        plate: 'VDW7132',
-        make: 'Perodua',
-    })
+const Schema = mongoose.Schema;
+const carSchema = new Schema({
+    model: {
+        type: String,
+        required: true
+    },
+    year: {
+        type: String,
+        required: true
+    },
+    plate: {
+        type: String,
+        required: true
+    },
+    make: {
+        type: String,
+        required: true
+    },
+}, { timestamps :true});
 
-    newCar.save()
-    .then((result) => {
-        res.send(result.model)
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-
-})
+const Car = mongoose.model('Car',carSchema);
 
 app.get('/cars', (req,res) => {
     Car.find()
