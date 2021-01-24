@@ -23,7 +23,7 @@ mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
 
 //ROUTES
 app.get('/', (req,res) => {
-    res.send('Home')
+    res.send('Home!')
 })
 
 const Schema = mongoose.Schema;
