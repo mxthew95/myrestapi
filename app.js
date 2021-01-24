@@ -8,45 +8,25 @@ app.listen(port, () => {
     console.log(`Node app is running on port ${port}`);
 });
 
-//DATABASE
-const dbURI = 'mongodb+srv://mxthew95:deader5@mycluster.5fkzr.mongodb.net/car-rentals?retryWrites=true&w=majority'
-
+//CONNECT TO DATABASE
 const mongoose = require('mongoose');
 
+const dbURI = 'mongodb+srv://mxthew95:deader5@mycluster.5fkzr.mongodb.net/car-rentals?retryWrites=true&w=majority'
+
 mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
-    .then((result) => {
-        console.log('Connected to DB!')
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+.then((result) => {
+    console.log('Connected to DB!')
+})
+.catch((err) => {
+    console.log(err)
+})
 
 //ROUTES
+const Car = require('./models/Car.js')  
+
 app.get('/', (req,res) => {
     res.send('Home!')
 })
-
-const Schema = mongoose.Schema;
-const carSchema = new Schema({
-    model: {
-        type: String,
-        required: true
-    },
-    year: {
-        type: String,
-        required: true
-    },
-    plate: {
-        type: String,
-        required: true
-    },
-    make: {
-        type: String,
-        required: true
-    },
-}, { timestamps :true});
-
-const Car = mongoose.model('Car',carSchema);
 
 app.get('/cars', (req,res) => {
     Car.find()
