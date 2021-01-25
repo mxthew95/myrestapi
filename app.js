@@ -22,7 +22,7 @@ mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
 })
 
 //ROUTES
-const Car = require('./models/car')  
+const Car = require('./models/car')
 
 app.get('/', (req,res) => {
     res.send('Home!')
