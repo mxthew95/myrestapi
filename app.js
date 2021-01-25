@@ -21,6 +21,9 @@ mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
     console.log(err)
 })
 
+//MIDDLEWARES
+app.use(express.json())
+
 //ROUTES
 const Car = require('./models/car')
 
@@ -38,7 +41,13 @@ app.get('/cars', (req,res) => {
     })
 })
 
-//MIDDLEWARES
+app.post('/add/car', (req,res) => {
+    const newCar = new Car(req.body)
+    newCar.save()
+    .then(resp=>console.log(resp))
+    .catch(err=>console.log(err))
+});
+
 
 
 
