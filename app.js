@@ -25,29 +25,20 @@ mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
 app.use(express.json())
 
 //ROUTES
-const Car = require('./models/car')
-
 app.get('/', (req,res) => {
     res.send('Home!')
 })
 
-app.get('/cars', (req,res) => {
-    Car.find()
-    .then((result) => {
-        res.send(result)
-    })
-    .catch((err) => {
-        console.log(err);
-    })
-})
+app.use('/api', require('./routes/cars'))
 
+/*
 app.post('/add/car', (req,res) => {
     const newCar = new Car(req.body)
     newCar.save()
     .then(resp=>console.log(resp))
     .catch(err=>console.log(err))
 });
-
+*/
 
 
 
