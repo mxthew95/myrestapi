@@ -21,6 +21,9 @@ mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
     console.log(err)
 })
 
+//avoid decprecation warning
+mongoose.set('useFindAndModify', false);
+
 //MIDDLEWARES
 app.use(express.json())
 
