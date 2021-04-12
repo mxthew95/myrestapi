@@ -11,7 +11,7 @@ app.listen(port, () => {
 //CONNECT TO DATABASE
 const mongoose = require('mongoose');
 
-const dbURI = 'mongodb+srv://mxthew95:deader5@mycluster.5fkzr.mongodb.net/car-rentals?retryWrites=true&w=majority'
+const dbURI = 'mongodb+srv://mxthew95:deader5@mycluster.5fkzr.mongodb.net/rn-db?retryWrites=true&w=majority'
 
 mongoose.connect(dbURI,{ useNewUrlParser: true, useUnifiedTopology: true})
 .then((result) => {
@@ -29,16 +29,9 @@ app.get('/', (req,res) => {
     res.send('Home!')
 })
 
-app.use('/api', require('./routes/cars'))
+app.use('/api', require('./routes/calories'))
 
-/*
-app.post('/add/car', (req,res) => {
-    const newCar = new Car(req.body)
-    newCar.save()
-    .then(resp=>console.log(resp))
-    .catch(err=>console.log(err))
-});
-*/
+
 
 
 
