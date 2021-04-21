@@ -1,61 +1,70 @@
 const Calorie = require('../models/calorie');
 
 module.exports = {
+    //get all
     getCalories: async (req, res, next) => {
         console.log('CalorieController.getCalories() called!');
-        const result = await Calorie.find();
-        res.send(result);
-    },
-    getCalorie: async (req, res, next) => {
-        console.log(`CalorieController.getCalorie() called on id: ${req.params.id}!`);
-        const result = await Calorie.findById(req.params.id);
-        if (result) {
-            res.send(result);
-        }
-        else {
-            res.send('Document not found!');
-        }
-    },
-    addCalorie: async (req, res, next) => {
-        console.log(`CalorieController.addCalorie() called!`);
-
-        const { amount } = req.body;
-
-        const calorie = {
-            amount: amount
-        };
-
         try {
-            await Calorie.create(calorie);
-            res.send('Record added!');
+            const result = await Calorie.find();
+            res.status(200).send(result);
         }
         catch (err) {
-            console.error(err.toString());
+            console.log(err.toString());
+            res.status(500).send('Something went wrong...');
         }
-
+    },
+    //get one
+    getCalorie: async (req, res, next) => {
+        console.log(`CalorieController.getCalorie() called on id: ${req.params.id}!`);
+        try {
+            const result = await Calorie.findById(req.params.id);
+            if (!result) {
+                res.status(404).send(`${req.params.id} does not exist`);
+            }
+            else {
+                res.send(result);
+            }
+        }
+        catch (err) {
+            console.log(err.toString());
+            res.status(500).send('Something went wrong...');
+        }
+    },
+    //add one
+    addCalorie: async (req, res, next) => {
+        console.log(`CalorieController.addCalorie() called!`);
+        try {
+            console.log(req.body);
+            const result = await Calorie.create({ amount: req.body.amount });
+            res.status(200).send(result);
+        }
+        catch (err) {
+            console.log(err.toString());
+            res.status(500).send('Something went wrong...');
+        }
     },
     updateCalorie: async (req, res, next) => {
         console.log(`CalorieController.updateCalorie() called on id: ${req.params.id}!`);
         console.log(req.body);
-        Calorie.findByIdAndUpdate(req.params.id, { amount: req.body.amount },
-        (err, docs) => {
-            if (err) {
-                res.send(err)
-            }
-            else {
-                res.send('Record updated!');
-            }
-        });
+        try {
+            // new: true -> sends result after update
+            const result = await Calorie.findByIdAndUpdate(req.params.id, { amount: req.body.amount },{new: true});
+            res.status(200).send(result);
+        }
+        catch (err) {
+            console.log(err.toString());
+            res.status(500).send('Something went wrong...');
+        }
     },
     deleteCalorie: async (req, res, next) => {
         console.log(`CalorieController.deleteCalorie() called on id: ${req.params.id}!`);
-        console.log(req.body);
-        const result = await Calorie.findByIdAndDelete(req.params.id);
-        if (result) {
-            res.send('Record deleted!');
+        try {
+            const result = await Calorie.findByIdAndDelete(req.params.id);
+            res.status(200).send(result);
         }
-        else {
-            res.send('Document not found');
+        catch (err) {
+            console.log(err.toString());
+            res.status(500).send('Something went wrong...');
         }
     },
 }
